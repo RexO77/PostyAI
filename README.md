@@ -1,23 +1,52 @@
-# project-genai-post-generator
-This tool will analyze posts of a LinkedIn influencer and help them create the new posts based on the writing style in their old posts  
+# Posty AI - LinkedIn Post Generator 🚀
 
-<img src="resources/tool.jpg"/>
+A powerful AI-driven tool that analyzes LinkedIn influencers' writing patterns to generate engaging, personalized content that matches their unique style.
 
-Let's say Mohan is a LinkedIn influencer and he needs help in writing his future posts. He can feed his past LinkedIn posts to this tool and it will extract key topics. Then he can select the topic, length, language etc. and use Generate button to create a new post that will match his writing style. 
+## 📖 Overview
 
-## Technical Architecture
+Posty AI helps LinkedIn influencers maintain consistent content creation by:
+- Analyzing existing posts to understand writing style and patterns
+- Extracting key topics and themes automatically
+- Generating new posts that maintain the author's authentic voice
+- Supporting multiple languages (English and Hinglish)
+- Offering customizable post length and tone settings
+
+## 🏗️ Technical Architecture
+
 <img src="resources/architecture.jpg"/>
 
-1. Stage 1: Collect LinkedIn posts and extract Topic, Language, Length etc. from it.
-1. Stage 2: Now use topic, language and length to generate a new post. Some of the past posts related to that specific topic, language and length will be used for few shot learning to guide the LLM about the writing style etc.
+### Stage 1: Content Analysis
+- Ingests LinkedIn posts in JSON format
+- Extracts metadata: topics, language, length, and engagement metrics
+- Processes and unifies content tags for better categorization
+- Stores processed data for efficient retrieval
 
-## Set-up
-1. To get started we first need to get an API_KEY from here: https://console.groq.com/keys. Inside `.env` update the value of `GROQ_API_KEY` with the API_KEY you created. 
-2. To get started, first install the dependencies using:
+### Stage 2: Content Generation
+- Utilizes few-shot learning with filtered relevant examples
+- Considers post length, language, and topic preferences
+- Maintains consistent tone and style through AI prompting
+- Generates engaging content with optimal formatting
+
+## 🛠️ Installation
+
+### Prerequisites
+- Python 3.8+
+- pip package manager
+- Groq API access
+
+### Setup Steps
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/posty-ai.git
+cd posty-ai
+```
+2. To get started we first need to get an API_KEY from here: https://console.groq.com/keys. Inside `.env` update the value of `GROQ_API_KEY` with the API_KEY you created. 
+3. To get started, first install the dependencies using:
     ```commandline
      pip install -r requirements.txt
     ```
-3. Run the streamlit app:
+4. Run the streamlit app:
    ```commandline
    streamlit run main.py
    ```
