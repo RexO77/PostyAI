@@ -29,13 +29,10 @@ def main():
         # Dropdown for Language
         selected_language = st.selectbox("Language", options=language_options)
 
-
-
     # Generate Button
     if st.button("Generate"):
         post = generate_post(selected_length, selected_language, selected_tag)
         st.write(post)
-
 
 # Run the app
 if __name__ == "__main__":

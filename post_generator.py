@@ -13,25 +13,24 @@ def get_length_str(length):
         return "14 to 18 lines"
 
 
-def generate_post(length, language, tag):
-    prompt = get_prompt(length, language, tag)
+# ...existing code...
+def generate_post(length, language, tag, tone=None):
+    prompt = get_prompt(length, language, tag, tone)
     response = llm.invoke(prompt)
     return response.content
 
-
-def get_prompt(length, language, tag):
+def get_prompt(length, language, tag, tone=None):
     length_str = get_length_str(length)
-
     prompt = f'''
     Generate a LinkedIn post using the below information. No preamble.
 
     1) Topic: {tag}
     2) Length: {length_str}
     3) Language: {language}
-    If Language is Hinglish then it means it is a mix of Hindi and English. 
+    4) Tone: {tone}
+    If Language is Hinglish then it means it is a mix of Hindi and English.
     The script for the generated post should always be English.
     '''
-    # prompt = prompt.format(post_topic=tag, post_length=length_str, post_language=language)
 
     examples = few_shot.get_filtered_posts(length, language, tag)
 
