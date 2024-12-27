@@ -1,4 +1,4 @@
-# Posty AI - LinkedIn Post Generator 🚀
+# Posty AI - Post Generator 🚀
 
 A powerful AI-driven tool that analyzes LinkedIn influencers' writing patterns to generate engaging, personalized content that matches their unique style.
 
@@ -50,7 +50,7 @@ cd posty-ai
    ```commandline
    streamlit run main.py
    ```
-Copyright (C) Codebasics Inc. All rights reserved.
+
 
 
 **Additional Terms:**
