@@ -11,7 +11,7 @@ st.set_page_config(
     page_title="Posty - AI Post Generator",
     page_icon="✨",
     layout="wide",
-    initial_sidebar_state=""
+    initial_sidebar_state="collapsed"
 )
 
 # Apply theme
