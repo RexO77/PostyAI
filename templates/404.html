@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - PostyAI{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-900 dark:to-purple-900 flex items-center justify-center">
+    <div class="max-w-md mx-auto text-center px-4">
+        <!-- 404 Illustration -->
+        <div class="mb-8">
+            <div class="w-32 h-32 mx-auto bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-full flex items-center justify-center mb-6">
+                <i data-lucide="search" class="w-16 h-16 text-blue-600 dark:text-blue-400"></i>
+            </div>
+            <h1 class="text-6xl font-bold text-gray-900 dark:text-white mb-2">404</h1>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Page Not Found</h2>
+        </div>
+        
+        <!-- Error Message -->
+        <div class="mb-8">
+            <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-6">
+                Oops! The page you're looking for seems to have wandered off into the digital void. 
+                Don't worry, even the best content creators get lost sometimes!
+            </p>
+            
+            <!-- Suggestions -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Here's what you can do:</h3>
+                <ul class="space-y-3 text-left">
+                    <li class="flex items-center space-x-3">
+                        <i data-lucide="home" class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Go back to the homepage and start fresh</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <i data-lucide="arrow-left" class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Use your browser's back button</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <i data-lucide="edit" class="w-5 h-5 text-purple-600 dark:text-purple-400 flex-shrink-0"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Start creating amazing posts right away</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="space-y-4">
+            <a href="/" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 no-print">
+                <i data-lucide="home" class="w-5 h-5"></i>
+                <span>Take Me Home</span>
+            </a>
+            
+            <button onclick="window.history.back()" class="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-xl transition-all flex items-center justify-center space-x-2 no-print">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Go Back</span>
+            </button>
+        </div>
+        
+        <!-- Fun Fact -->
+        <div class="mt-12 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-200 dark:border-blue-800">
+            <div class="flex items-start space-x-3">
+                <i data-lucide="lightbulb" class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5"></i>
+                <div class="text-left">
+                    <p class="text-sm font-medium text-blue-900 dark:text-blue-200 mb-1">Fun Fact</p>
+                    <p class="text-sm text-blue-700 dark:text-blue-300">
+                        404 errors got their name from room 404 at CERN, where the original web servers were located. 
+                        When researchers couldn't find a page, they'd joke about "room 404 not found"!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Add some fun interactions
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate the 404 number on load
+        const heading = document.querySelector('h1');
+        if (heading) {
+            heading.style.opacity = '0';
+            heading.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                heading.style.transition = 'all 0.6s ease-out';
+                heading.style.opacity = '1';
+                heading.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        // Add hover effect to suggestions
+        const suggestions = document.querySelectorAll('li');
+        suggestions.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(8px)';
+                this.style.transition = 'transform 0.2s ease';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+    });
+</script>
+{% endblock %} 

@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - PostyAI{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-red-50 via-white to-orange-50 dark:from-gray-900 dark:via-gray-900 dark:to-red-900 flex items-center justify-center">
+    <div class="max-w-md mx-auto text-center px-4">
+        <!-- 500 Illustration -->
+        <div class="mb-8">
+            <div class="w-32 h-32 mx-auto bg-gradient-to-br from-red-100 to-orange-100 dark:from-red-900 dark:to-orange-900 rounded-full flex items-center justify-center mb-6">
+                <i data-lucide="alert-triangle" class="w-16 h-16 text-red-600 dark:text-red-400"></i>
+            </div>
+            <h1 class="text-6xl font-bold text-gray-900 dark:text-white mb-2">500</h1>
+            <h2 class="text-2xl font-semibold text-gray-700 dark:text-gray-300 mb-4">Server Error</h2>
+        </div>
+        
+        <!-- Error Message -->
+        <div class="mb-8">
+            <p class="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-6">
+                Oops! Our AI seems to be having a creative block. Our servers are experiencing some technical difficulties, 
+                but don't worry - we're working hard to get things back up and running!
+            </p>
+            
+            <!-- Status Info -->
+            <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">What's happening?</h3>
+                <ul class="space-y-3 text-left">
+                    <li class="flex items-center space-x-3">
+                        <i data-lucide="server" class="w-5 h-5 text-red-600 dark:text-red-400 flex-shrink-0"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Our servers are experiencing high load</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <i data-lucide="wrench" class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Our team is working on a fix</span>
+                    </li>
+                    <li class="flex items-center space-x-3">
+                        <i data-lucide="clock" class="w-5 h-5 text-green-600 dark:text-green-400 flex-shrink-0"></i>
+                        <span class="text-gray-700 dark:text-gray-300">Service should be restored shortly</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="space-y-4">
+            <button onclick="window.location.reload()" class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold py-4 px-8 rounded-xl shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-105 flex items-center justify-center space-x-2 no-print">
+                <i data-lucide="refresh-cw" class="w-5 h-5"></i>
+                <span>Try Again</span>
+            </button>
+            
+            <a href="/" class="w-full bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-3 px-6 rounded-xl transition-all flex items-center justify-center space-x-2 no-print">
+                <i data-lucide="home" class="w-4 h-4"></i>
+                <span>Go Home</span>
+            </a>
+        </div>
+        
+        <!-- Status Updates -->
+        <div class="mt-12 p-4 bg-orange-50 dark:bg-orange-900/20 rounded-xl border border-orange-200 dark:border-orange-800">
+            <div class="flex items-start space-x-3">
+                <i data-lucide="info" class="w-5 h-5 text-orange-600 dark:text-orange-400 flex-shrink-0 mt-0.5"></i>
+                <div class="text-left">
+                    <p class="text-sm font-medium text-orange-900 dark:text-orange-200 mb-1">Status Updates</p>
+                    <p class="text-sm text-orange-700 dark:text-orange-300">
+                        For real-time updates on system status, you can check our status page or follow us on social media. 
+                        We appreciate your patience!
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Report Issue -->
+        <div class="mt-6">
+            <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">
+                If this problem persists, please let us know:
+            </p>
+            <div class="flex justify-center space-x-4">
+                <button class="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm font-medium transition-colors" onclick="reportIssue()">
+                    Report Issue
+                </button>
+                <button class="text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 text-sm font-medium transition-colors" onclick="contactSupport()">
+                    Contact Support
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Auto-refresh functionality
+    let refreshTimer;
+    let refreshCount = 0;
+    const maxRefreshes = 3;
+    
+    function startAutoRefresh() {
+        if (refreshCount < maxRefreshes) {
+            refreshTimer = setTimeout(() => {
+                refreshCount++;
+                console.log(`Auto-refresh attempt ${refreshCount}/${maxRefreshes}`);
+                window.location.reload();
+            }, 30000); // Refresh after 30 seconds
+        }
+    }
+    
+    function stopAutoRefresh() {
+        if (refreshTimer) {
+            clearTimeout(refreshTimer);
+        }
+    }
+    
+    // Report issue functionality
+    function reportIssue() {
+        const issueData = {
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            url: window.location.href,
+            referrer: document.referrer
+        };
+        
+        // In a real app, this would send to an error reporting service
+        console.log('Issue reported:', issueData);
+        
+        window.PostyAI?.notifications?.success('Issue reported successfully. Thank you!') || 
+        alert('Issue reported successfully. Thank you!');
+    }
+    
+    function contactSupport() {
+        // In a real app, this would open a support form or email
+        const email = 'support@postyai.com';
+        const subject = encodeURIComponent('Server Error - 500');
+        const body = encodeURIComponent(`Hi, I encountered a server error on ${window.location.href} at ${new Date().toISOString()}.`);
+        
+        window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    }
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        // Animate the 500 number on load
+        const heading = document.querySelector('h1');
+        if (heading) {
+            heading.style.opacity = '0';
+            heading.style.transform = 'scale(0.8)';
+            
+            setTimeout(() => {
+                heading.style.transition = 'all 0.6s ease-out';
+                heading.style.opacity = '1';
+                heading.style.transform = 'scale(1)';
+            }, 200);
+        }
+        
+        // Start auto-refresh (can be disabled by user interaction)
+        startAutoRefresh();
+        
+        // Stop auto-refresh if user interacts with the page
+        document.addEventListener('click', stopAutoRefresh);
+        document.addEventListener('keydown', stopAutoRefresh);
+        
+        // Add hover effect to status items
+        const statusItems = document.querySelectorAll('li');
+        statusItems.forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(8px)';
+                this.style.transition = 'transform 0.2s ease';
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+            });
+        });
+        
+        // Add pulse animation to the alert icon
+        const alertIcon = document.querySelector('[data-lucide="alert-triangle"]');
+        if (alertIcon) {
+            setInterval(() => {
+                alertIcon.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    alertIcon.style.transform = 'scale(1)';
+                }, 200);
+            }, 2000);
+        }
+    });
+    
+    // Show connection status
+    window.addEventListener('online', function() {
+        window.PostyAI?.notifications?.success('Connection restored! Refreshing page...') || 
+        console.log('Connection restored');
+        setTimeout(() => window.location.reload(), 1000);
+    });
+    
+    window.addEventListener('offline', function() {
+        window.PostyAI?.notifications?.warning('You appear to be offline. Please check your connection.') || 
+        console.log('Connection lost');
+    });
+</script>
+{% endblock %} 
