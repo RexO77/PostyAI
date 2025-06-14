@@ -3,22 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PostyAI - AI-Powered Content Creator</title>
+    <title>PostyAI - AI Content Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
     <style>
         :root {
-            --primary-bg: #0f0f23;
-            --secondary-bg: #1a1a2e;
-            --accent-color: #6366f1;
-            --accent-secondary: #8b5cf6;
+            --bg-primary: #0f0f0f;
+            --bg-secondary: #1a1a1a;
+            --bg-tertiary: #262626;
+            --bg-hover: #2d2d2d;
+            --border-primary: #404040;
+            --border-hover: #525252;
             --text-primary: #ffffff;
-            --text-secondary: #a1a1aa;
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --success-color: #10b981;
-            --error-color: #ef4444;
-            --warning-color: #f59e0b;
+            --text-secondary: #a3a3a3;
+            --text-muted: #737373;
+            --accent-primary: #10b981;
+            --accent-hover: #059669;
+            --accent-light: rgba(16, 185, 129, 0.1);
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -29,228 +35,248 @@
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--primary-bg);
+            background-color: var(--bg-primary);
             color: var(--text-primary);
+            line-height: 1.5;
             min-height: 100vh;
             overflow-x: hidden;
-            position: relative;
         }
 
-        /* Animated Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
-            animation: backgroundMove 20s ease-in-out infinite;
-            z-index: -1;
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
         }
 
-        @keyframes backgroundMove {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(30px, -30px) scale(1.1); }
-            66% { transform: translate(-20px, 20px) scale(0.9); }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
         }
 
-        /* Glassmorphism Card */
-        .glass-card {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        ::-webkit-scrollbar-thumb {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
         }
 
-        /* Container */
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 20px;
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--bg-hover);
         }
 
         /* Header */
         .header {
-            text-align: center;
-            margin-bottom: 40px;
-            animation: fadeInUp 1s ease-out;
+            border-bottom: 1px solid var(--border-primary);
+            background-color: var(--bg-primary);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(8px);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
         }
 
         .logo {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .logo-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            animation: logoFloat 3s ease-in-out infinite;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .header h1 {
-            font-size: 4rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin: 0;
-        }
-
-        .header p {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            margin-top: 8px;
-        }
-
-        /* Stats Bar */
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin: 32px 0;
-            animation: fadeInUp 1s ease-out 0.2s both;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--accent-color);
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
-            margin-top: 4px;
-        }
-
-        /* Main Layout */
-        .main-layout {
-            display: grid;
-            grid-template-columns: 400px 1fr;
-            gap: 32px;
-            animation: fadeInUp 1s ease-out 0.4s both;
-        }
-
-        /* Form Panel */
-        .form-panel {
-            padding: 32px;
-        }
-
-        .panel-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 32px;
             display: flex;
             align-items: center;
             gap: 12px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-icon:hover {
+            transform: scale(1.05);
+        }
+
+        .stats {
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        /* Main Layout */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 380px 1fr;
+            gap: 32px;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* Form Section */
+        .form-section {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            padding: 24px;
+            height: fit-content;
+            position: sticky;
+            top: 88px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--text-primary);
         }
 
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .form-label {
             display: block;
+            font-size: 14px;
             font-weight: 500;
-            margin-bottom: 8px;
             color: var(--text-primary);
+            margin-bottom: 8px;
         }
 
         .form-select {
             width: 100%;
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
             color: var(--text-primary);
-            font-size: 16px;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a3a3a3' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 12px center;
+            background-repeat: no-repeat;
+            background-size: 16px;
+            padding-right: 40px;
+        }
+
+        .form-select:hover {
+            border-color: var(--border-hover);
+            background-color: var(--bg-hover);
         }
 
         .form-select:focus {
             outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px var(--accent-light);
         }
 
         .form-select option {
-            background: var(--secondary-bg);
+            background-color: var(--bg-tertiary);
             color: var(--text-primary);
         }
 
-        /* Tone Grid */
+        /* Tone Selection */
         .tone-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 8px;
         }
 
         .tone-option {
-            padding: 16px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s ease;
+            background-color: var(--bg-tertiary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 14px;
             font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .tone-option:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+            border-color: var(--border-hover);
+            background-color: var(--bg-hover);
+            transform: translateY(-1px);
         }
 
         .tone-option.selected {
-            background: var(--accent-color);
-            border-color: var(--accent-color);
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+            border-color: var(--accent-primary);
+            background-color: var(--accent-light);
+            color: var(--accent-primary);
+        }
+
+        .tone-option.selected::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            animation: shimmer 0.6s ease-out;
+        }
+
+        @keyframes shimmer {
+            100% {
+                transform: translateX(100%);
+            }
         }
 
         /* Generate Button */
         .generate-btn {
             width: 100%;
-            padding: 20px;
-            background: linear-gradient(135deg, var(--accent-color), var(--accent-secondary));
+            background-color: var(--accent-primary);
             border: none;
-            border-radius: 16px;
-            color: white;
-            font-size: 18px;
+            border-radius: 8px;
+            padding: 14px 24px;
+            font-size: 16px;
             font-weight: 600;
+            color: white;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 32px;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 24px;
             position: relative;
             overflow: hidden;
         }
 
-        .generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 25px rgba(99, 102, 241, 0.4);
+        .generate-btn:hover:not(:disabled) {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
         }
 
         .generate-btn:disabled {
@@ -259,96 +285,13 @@
             transform: none;
         }
 
-        .generate-btn .btn-text {
-            transition: all 0.3s ease;
-        }
-
-        .generate-btn.loading .btn-text {
-            opacity: 0;
-        }
-
-        .btn-spinner {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .generate-btn.loading .btn-spinner {
-            opacity: 1;
-        }
-
-        /* Result Panel */
-        .result-panel {
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* States */
-        .state {
-            transition: all 0.5s ease;
-        }
-
-        .state.hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-
-        .welcome-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            text-align: center;
-            min-height: 400px;
-        }
-
-        .welcome-icon {
-            font-size: 5rem;
-            margin-bottom: 24px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        .welcome-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-
-        .welcome-subtitle {
-            color: var(--text-secondary);
-            font-size: 1.125rem;
-        }
-
-        /* Loading State */
-        .loading-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            text-align: center;
-            min-height: 400px;
-        }
-
-        .loading-spinner {
-            width: 60px;
-            height: 60px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-top: 4px solid var(--accent-color);
+        .generate-btn .spinner {
+            width: 16px;
+            height: 16px;
+            border: 2px solid transparent;
+            border-top: 2px solid currentColor;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 24px;
         }
 
         @keyframes spin {
@@ -356,166 +299,280 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* Result Container */
-        .result-container {
-            flex: 1;
-            animation: fadeInUp 0.8s ease-out;
-        }
-
-        .post-display {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 32px;
-            margin-bottom: 24px;
-            min-height: 300px;
-        }
-
-        .post-content {
-            font-size: 16px;
-            line-height: 1.7;
-            white-space: pre-wrap;
-            color: var(--text-primary);
-        }
-
-        /* Action Buttons */
-        .action-buttons {
+        /* Content Section */
+        .content-section {
             display: flex;
-            gap: 16px;
-            margin-bottom: 32px;
-            flex-wrap: wrap;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .action-btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 12px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .content-header {
             display: flex;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .content-actions {
+            display: flex;
             gap: 8px;
         }
 
-        .btn-copy {
-            background: var(--success-color);
-            color: white;
+        .action-btn {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .btn-copy:hover {
-            background: #059669;
-            transform: translateY(-2px);
-        }
-
-        .btn-regenerate {
-            background: rgba(255, 255, 255, 0.1);
+        .action-btn:hover {
+            border-color: var(--border-hover);
+            background-color: var(--bg-tertiary);
             color: var(--text-primary);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
         }
 
-        .btn-regenerate:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-
-        .btn-export {
-            background: var(--accent-color);
+        .action-btn.primary {
+            background-color: var(--accent-primary);
+            border-color: var(--accent-primary);
             color: white;
         }
 
-        .btn-export:hover {
-            background: #5b5dc6;
-            transform: translateY(-2px);
+        .action-btn.primary:hover {
+            background-color: var(--accent-hover);
         }
 
-        /* Analytics Grid */
-        .analytics-grid {
+        /* Content Display */
+        .content-display {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-states {
+            height: 100%;
+            position: relative;
+        }
+
+        .content-state {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .content-state.hidden {
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+        }
+
+        /* Welcome State */
+        .welcome-state {
+            flex-direction: column;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .welcome-icon {
+            width: 64px;
+            height: 64px;
+            background-color: var(--bg-tertiary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 24px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Loading State */
+        .loading-state {
+            flex-direction: column;
+            text-align: center;
+            padding: 60px 40px;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg-tertiary);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        .loading-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .loading-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Result State */
+        .result-state {
+            padding: 0;
+            display: block;
+        }
+
+        .post-content {
+            padding: 32px;
+            font-size: 16px;
+            line-height: 1.7;
+            color: var(--text-primary);
+            white-space: pre-wrap;
+            border-bottom: 1px solid var(--border-primary);
+            animation: fadeInContent 0.5s ease-out;
+        }
+
+        @keyframes fadeInContent {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Analytics */
+        .analytics {
+            padding: 24px 32px;
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 16px;
-            margin-bottom: 32px;
+            gap: 24px;
+            background-color: var(--bg-tertiary);
         }
 
-        .analytics-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
+        .analytic-item {
             text-align: center;
-            transition: all 0.3s ease;
         }
 
-        .analytics-card:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-
-        .analytics-value {
-            font-size: 2rem;
+        .analytic-value {
+            font-size: 24px;
             font-weight: 700;
-            color: var(--accent-color);
+            color: var(--accent-primary);
             margin-bottom: 4px;
         }
 
-        .analytics-label {
-            font-size: 0.875rem;
-            color: var(--text-secondary);
+        .analytic-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* History Section */
         .history-section {
-            margin-top: 32px;
-            padding-top: 32px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .history-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border-primary);
             display: flex;
-            justify-content: between;
             align-items: center;
-            margin-bottom: 24px;
+            justify-content: space-between;
+        }
+
+        .history-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .history-list {
+            max-height: 300px;
+            overflow-y: auto;
         }
 
         .history-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border-primary);
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:last-child {
+            border-bottom: none;
         }
 
         .history-item:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateX(4px);
+            background-color: var(--bg-tertiary);
         }
 
         .history-meta {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
             margin-bottom: 8px;
         }
 
         .history-tag {
-            background: var(--accent-color);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
+            background-color: var(--accent-light);
+            color: var(--accent-primary);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
             font-weight: 500;
         }
 
         .history-time {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
         .history-preview {
-            font-size: 0.875rem;
+            font-size: 14px;
             color: var(--text-secondary);
+            line-height: 1.4;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -524,19 +581,21 @@
         /* Notifications */
         .notification {
             position: fixed;
-            top: 24px;
+            top: 80px;
             right: 24px;
-            padding: 16px 24px;
-            border-radius: 12px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 8px;
+            padding: 16px 20px;
+            box-shadow: var(--shadow-lg);
+            z-index: 100;
             transform: translateX(400px);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
             align-items: center;
             gap: 12px;
             min-width: 300px;
+            backdrop-filter: blur(8px);
         }
 
         .notification.show {
@@ -544,46 +603,52 @@
         }
 
         .notification.success {
-            background: var(--success-color);
+            border-left: 4px solid var(--accent-primary);
         }
 
         .notification.error {
-            background: var(--error-color);
+            border-left: 4px solid var(--danger);
         }
 
         .notification.warning {
-            background: var(--warning-color);
+            border-left: 4px solid var(--warning);
         }
 
-        /* Floating Action Buttons */
-        .fab-container {
-            position: fixed;
-            bottom: 32px;
-            right: 32px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            z-index: 100;
+        .notification-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
         }
 
+        .notification-text {
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+
+        /* Floating Action Button */
         .fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
             width: 56px;
             height: 56px;
-            border-radius: 50%;
+            background-color: var(--accent-primary);
             border: none;
-            background: var(--accent-color);
-            color: white;
+            border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.3);
+            font-size: 24px;
+            color: white;
+            box-shadow: var(--shadow-lg);
+            transition: all 0.2s ease;
+            z-index: 50;
         }
 
         .fab:hover {
+            background-color: var(--accent-hover);
             transform: scale(1.1);
-            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.4);
         }
 
         /* Modal */
@@ -591,17 +656,16 @@
             position: fixed;
             top: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(8px);
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 1000;
+            z-index: 200;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.2s ease;
         }
 
         .modal.show {
@@ -610,267 +674,273 @@
         }
 
         .modal-content {
-            background: var(--secondary-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border-primary);
+            border-radius: 12px;
             padding: 32px;
-            max-width: 600px;
+            max-width: 500px;
             width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
+            transform: scale(0.95);
+            transition: transform 0.2s ease;
         }
 
         .modal.show .modal-content {
             transform: scale(1);
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .modal-header {
+            margin-bottom: 24px;
         }
 
-        @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
         }
 
-                 .hidden {
-            display: none !important;
+        .modal-subtitle {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
         }
 
         /* Responsive Design */
         @media (max-width: 1024px) {
-            .main-layout {
+            .main-container {
                 grid-template-columns: 1fr;
                 gap: 24px;
             }
-            
-            .stats-bar {
-                gap: 24px;
+
+            .form-section {
+                position: static;
             }
-            
-            .header h1 {
-                font-size: 3rem;
+
+            .stats {
+                display: none;
             }
         }
 
         @media (max-width: 640px) {
-            .container {
+            .main-container {
                 padding: 16px;
             }
-            
-            .form-panel,
-            .result-panel {
-                padding: 24px;
+
+            .header-content {
+                padding: 0 16px;
             }
-            
-            .header h1 {
-                font-size: 2.5rem;
+
+            .form-section,
+            .content-section {
+                padding: 20px;
             }
-            
-            .stats-bar {
-                flex-direction: column;
+
+            .tone-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .analytics {
+                grid-template-columns: repeat(2, 1fr);
                 gap: 16px;
             }
-            
-            .action-buttons {
-                flex-direction: column;
-            }
-            
-            .analytics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Focus Styles */
+        button:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--accent-primary);
+            outline-offset: 2px;
+        }
+
+        /* Smooth transitions for better UX */
+        * {
+            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        }
+
+        /* Prevent text selection on UI elements */
+        .header, .form-section, .action-btn, .tone-option, .fab {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
             <div class="logo">
                 <div class="logo-icon">🚀</div>
-                <h1>PostyAI</h1>
+                PostyAI
             </div>
-            <p>AI-Powered Content Creation Platform</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="totalPosts">0</span>
+                    <span>Posts</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="totalTopics">18</span>
+                    <span>Topics</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="avgTime">2.3s</span>
+                    <span>Avg Time</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Form Section -->
+        <div class="form-section">
+            <h2 class="section-title">Generate Content</h2>
             
-            <div class="stats-bar">
-                <div class="stat-item">
-                    <div class="stat-value" id="totalPosts">0</div>
-                    <div class="stat-label">Posts Generated</div>
+            <form id="contentForm">
+                <div class="form-group">
+                    <label class="form-label">Topic</label>
+                    <select id="topicSelect" class="form-select" required>
+                        <option value="">Choose a topic...</option>
+                    </select>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="totalTopics">18</div>
-                    <div class="stat-label">Topics Available</div>
+
+                <div class="form-group">
+                    <label class="form-label">Length</label>
+                    <select id="lengthSelect" class="form-select" required>
+                        <option value="Short">Short (1-5 lines)</option>
+                        <option value="Medium" selected>Medium (6-10 lines)</option>
+                        <option value="Long">Long (14-18 lines)</option>
+                    </select>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="avgTime">2.3s</div>
-                    <div class="stat-label">Avg Generation</div>
+
+                <div class="form-group">
+                    <label class="form-label">Language</label>
+                    <select id="languageSelect" class="form-select" required>
+                        <option value="English" selected>English</option>
+                        <option value="Hinglish">Hinglish</option>
+                    </select>
                 </div>
-            </div>
-        </header>
 
-        <!-- Main Layout -->
-        <div class="main-layout">
-            <!-- Form Panel -->
-            <div class="glass-card form-panel">
-                <h2 class="panel-title">
-                    <span>✨</span>
-                    Create Content
-                </h2>
-                
-                <form id="contentForm">
-                    <div class="form-group">
-                        <label class="form-label">Topic</label>
-                        <select id="topicSelect" class="form-select" required>
-                            <option value="">Choose a topic...</option>
-                        </select>
+                <div class="form-group">
+                    <label class="form-label">Tone</label>
+                    <div class="tone-grid">
+                        <div class="tone-option selected" data-tone="Professional">Professional</div>
+                        <div class="tone-option" data-tone="Casual">Casual</div>
+                        <div class="tone-option" data-tone="Inspirational">Inspirational</div>
+                        <div class="tone-option" data-tone="Educational">Educational</div>
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Length</label>
-                        <select id="lengthSelect" class="form-select" required>
-                            <option value="Short">Short (1-5 lines)</option>
-                            <option value="Medium" selected>Medium (6-10 lines)</option>
-                            <option value="Long">Long (14-18 lines)</option>
-                        </select>
-                    </div>
+                <button type="submit" class="generate-btn" id="generateBtn">
+                    <span id="btnText">Generate Post</span>
+                    <div class="spinner hidden" id="btnSpinner"></div>
+                </button>
+            </form>
+        </div>
 
-                    <div class="form-group">
-                        <label class="form-label">Language</label>
-                        <select id="languageSelect" class="form-select" required>
-                            <option value="English" selected>English</option>
-                            <option value="Hinglish">Hinglish</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Tone</label>
-                        <div class="tone-grid">
-                            <div class="tone-option selected" data-tone="Professional">Professional</div>
-                            <div class="tone-option" data-tone="Casual">Casual</div>
-                            <div class="tone-option" data-tone="Inspirational">Inspirational</div>
-                            <div class="tone-option" data-tone="Educational">Educational</div>
-                        </div>
-                    </div>
-
-                    <button type="submit" class="generate-btn" id="generateBtn">
-                        <span class="btn-text">Generate Post</span>
-                        <div class="btn-spinner">
-                            <div class="loading-spinner" style="width: 20px; height: 20px; border-width: 2px;"></div>
-                        </div>
+        <!-- Content Section -->
+        <div class="content-section">
+            <div class="content-header">
+                <h2 class="section-title">Generated Content</h2>
+                <div class="content-actions">
+                    <button class="action-btn" id="copyBtn" style="display: none;" onclick="copyToClipboard()">
+                        <span>📋</span>
+                        Copy
                     </button>
-                </form>
+                    <button class="action-btn" id="regenerateBtn" style="display: none;" onclick="regeneratePost()">
+                        <span>🔄</span>
+                        Regenerate
+                    </button>
+                    <button class="action-btn" id="exportBtn" style="display: none;" onclick="exportPost()">
+                        <span>📤</span>
+                        Export
+                    </button>
+                </div>
             </div>
 
-            <!-- Result Panel -->
-            <div class="glass-card result-panel">
-                <h2 class="panel-title">
-                    <span>📝</span>
-                    Generated Content
-                </h2>
+            <div class="content-display">
+                <div class="content-states">
+                    <!-- Welcome State -->
+                    <div id="welcomeState" class="content-state welcome-state">
+                        <div class="welcome-icon">✨</div>
+                        <h3 class="welcome-title">Ready to create amazing content?</h3>
+                        <p class="welcome-subtitle">Select your preferences and generate professional social media posts with AI</p>
+                    </div>
 
-                <!-- Welcome State -->
-                <div id="welcomeState" class="state welcome-state">
-                    <div class="welcome-icon">✨</div>
-                    <h3 class="welcome-title">Ready to Create?</h3>
-                    <p class="welcome-subtitle">Choose your preferences and generate amazing content with AI</p>
+                    <!-- Loading State -->
+                    <div id="loadingState" class="content-state loading-state hidden">
+                        <div class="loading-spinner"></div>
+                        <h3 class="loading-title">Generating your post...</h3>
+                        <p class="loading-subtitle">Our AI is crafting the perfect content for you</p>
+                    </div>
+
+                    <!-- Result State -->
+                    <div id="resultState" class="content-state result-state hidden">
+                        <div class="post-content" id="postContent"></div>
+                        <div class="analytics">
+                            <div class="analytic-item">
+                                <div class="analytic-value" id="wordCount">0</div>
+                                <div class="analytic-label">Words</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-value" id="readingTime">0</div>
+                                <div class="analytic-label">Min Read</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-value" id="engagementScore">0/10</div>
+                                <div class="analytic-label">Engagement</div>
+                            </div>
+                            <div class="analytic-item">
+                                <div class="analytic-value" id="genTime">0s</div>
+                                <div class="analytic-label">Generated</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Loading State -->
-                <div id="loadingState" class="state loading-state hidden">
-                    <div class="loading-spinner"></div>
-                    <h3>Creating Your Content...</h3>
-                    <p>Our AI is crafting the perfect post for you</p>
+            <!-- History Section -->
+            <div class="history-section">
+                <div class="history-header">
+                    <h3>Recent Posts</h3>
+                    <button class="action-btn" onclick="clearHistory()">Clear All</button>
                 </div>
-
-                <!-- Result State -->
-                <div id="resultState" class="state result-container hidden">
-                    <div class="post-display">
-                        <div id="postContent" class="post-content"></div>
-                    </div>
-
-                    <div class="action-buttons">
-                        <button class="action-btn btn-copy" onclick="copyToClipboard()">
-                            <span>📋</span>
-                            Copy Post
-                        </button>
-                        <button class="action-btn btn-regenerate" onclick="regeneratePost()">
-                            <span>🔄</span>
-                            Regenerate
-                        </button>
-                        <button class="action-btn btn-export" onclick="exportPost()">
-                            <span>📤</span>
-                            Export
-                        </button>
-                    </div>
-
-                    <div class="analytics-grid">
-                        <div class="analytics-card">
-                            <div id="wordCount" class="analytics-value">0</div>
-                            <div class="analytics-label">Words</div>
-                        </div>
-                        <div class="analytics-card">
-                            <div id="readingTime" class="analytics-value">0</div>
-                            <div class="analytics-label">Min Read</div>
-                        </div>
-                        <div class="analytics-card">
-                            <div id="engagementScore" class="analytics-value">0/10</div>
-                            <div class="analytics-label">Engagement</div>
-                        </div>
-                        <div class="analytics-card">
-                            <div id="genTime" class="analytics-value">0s</div>
-                            <div class="analytics-label">Generated</div>
-                        </div>
-                    </div>
-
-                    <!-- History Section -->
-                    <div class="history-section">
-                        <div class="history-header">
-                            <h3>Recent Posts</h3>
-                            <button class="action-btn btn-regenerate" onclick="clearHistory()" style="padding: 8px 16px; font-size: 0.875rem;">
-                                Clear All
-                            </button>
-                        </div>
-                        <div id="historyContainer"></div>
+                <div class="history-list" id="historyContainer">
+                    <div style="padding: 40px; text-align: center; color: var(--text-muted);">
+                        No posts generated yet
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Floating Action Buttons -->
-    <div class="fab-container">
-        <button class="fab" onclick="showBatchModal()" title="Batch Generate">
-            <span>⚡</span>
-        </button>
-        <button class="fab" onclick="toggleTheme()" title="Toggle Theme">
-            <span>🌙</span>
-        </button>
-    </div>
+    <!-- Floating Action Button -->
+    <button class="fab" onclick="showBatchModal()" title="Batch Generate">
+        ⚡
+    </button>
 
-    <!-- Batch Generation Modal -->
+    <!-- Batch Modal -->
     <div id="batchModal" class="modal">
         <div class="modal-content">
-            <h3 style="margin-bottom: 24px;">Batch Generation</h3>
-            <p style="margin-bottom: 24px; color: var(--text-secondary);">Generate multiple posts with the same settings</p>
+            <div class="modal-header">
+                <h3 class="modal-title">Batch Generation</h3>
+                <p class="modal-subtitle">Generate multiple posts with the same settings</p>
+            </div>
             
             <div class="form-group">
-                <label class="form-label">Number of Posts (max 5)</label>
+                <label class="form-label">Number of Posts</label>
                 <select id="batchCount" class="form-select">
                     <option value="2">2 Posts</option>
                     <option value="3" selected>3 Posts</option>
@@ -879,9 +949,9 @@
                 </select>
             </div>
             
-            <div style="display: flex; gap: 16px; justify-content: flex-end; margin-top: 32px;">
-                <button class="action-btn btn-regenerate" onclick="closeBatchModal()">Cancel</button>
-                <button class="action-btn btn-copy" onclick="startBatchGeneration()">Generate</button>
+            <div class="modal-actions">
+                <button class="action-btn" onclick="closeBatchModal()">Cancel</button>
+                <button class="action-btn primary" onclick="startBatchGeneration()">Generate</button>
             </div>
         </div>
     </div>
@@ -898,21 +968,34 @@
             await initializeApp();
         });
 
+        // Handle page visibility changes for better performance
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                // Page is hidden, pause any ongoing operations
+                if (isGenerating) {
+                    console.log('Page hidden during generation');
+                }
+            } else {
+                // Page is visible again
+                console.log('Page visible again');
+            }
+        });
+
         async function initializeApp() {
             console.log('🚀 Initializing PostyAI...');
             
-            // Load topics and history
-            await Promise.all([
-                loadTopics(),
-                loadHistory()
-            ]);
-            
-            // Setup event listeners
-            setupToneSelection();
-            setupFormSubmission();
-            setupKeyboardShortcuts();
-            
-            console.log('✅ PostyAI ready!');
+            try {
+                await Promise.all([
+                    loadTopics(),
+                    loadHistory()
+                ]);
+                
+                setupEventListeners();
+                console.log('✅ PostyAI ready!');
+            } catch (error) {
+                console.error('❌ Initialization failed:', error);
+                showNotification('Failed to initialize app', 'error');
+            }
         }
 
         // Load topics from API
@@ -932,8 +1015,8 @@
                 });
                 
                 document.getElementById('totalTopics').textContent = data.tags.length;
-                
             } catch (error) {
+                console.error('Failed to load topics:', error);
                 showNotification('Failed to load topics', 'error');
             }
         }
@@ -947,14 +1030,14 @@
                 
                 updateStats();
                 renderHistory();
-                
             } catch (error) {
                 console.warn('Failed to load history');
             }
         }
 
-        // Setup tone selection
-        function setupToneSelection() {
+        // Setup event listeners
+        function setupEventListeners() {
+            // Tone selection
             document.querySelectorAll('.tone-option').forEach(option => {
                 option.addEventListener('click', function() {
                     document.querySelectorAll('.tone-option').forEach(opt => 
@@ -964,10 +1047,8 @@
                     selectedTone = this.dataset.tone;
                 });
             });
-        }
 
-        // Setup form submission
-        function setupFormSubmission() {
+            // Form submission
             document.getElementById('contentForm').addEventListener('submit', async function(e) {
                 e.preventDefault();
                 
@@ -984,10 +1065,8 @@
                 
                 await generatePost(topic, length, language, selectedTone);
             });
-        }
 
-        // Setup keyboard shortcuts
-        function setupKeyboardShortcuts() {
+            // Keyboard shortcuts
             document.addEventListener('keydown', function(e) {
                 if (e.ctrlKey || e.metaKey) {
                     switch (e.key) {
@@ -1020,8 +1099,12 @@
             showState('loading');
             
             const generateBtn = document.getElementById('generateBtn');
-            generateBtn.classList.add('loading');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            
             generateBtn.disabled = true;
+            btnText.classList.add('hidden');
+            btnSpinner.classList.remove('hidden');
             
             try {
                 const response = await fetch('/api/generate', {
@@ -1029,6 +1112,10 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ tag: topic, length, language, tone })
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
                 
                 const result = await response.json();
                 
@@ -1048,12 +1135,17 @@
                 }
                 
             } catch (error) {
-                showNotification(`Generation failed: ${error.message}`, 'error');
+                console.error('Generation failed:', error);
+                const errorMessage = error.message.includes('fetch') 
+                    ? 'Network error. Please check your connection.' 
+                    : `Generation failed: ${error.message}`;
+                showNotification(errorMessage, 'error');
                 showState('welcome');
             } finally {
                 isGenerating = false;
-                generateBtn.classList.remove('loading');
                 generateBtn.disabled = false;
+                btnText.classList.remove('hidden');
+                btnSpinner.classList.add('hidden');
             }
         }
 
@@ -1064,6 +1156,11 @@
             document.getElementById('readingTime').textContent = post.stats.reading_time;
             document.getElementById('engagementScore').textContent = `${post.stats.engagement_score}/10`;
             document.getElementById('genTime').textContent = `${post.generation_time}s`;
+            
+            // Show action buttons
+            document.getElementById('copyBtn').style.display = 'flex';
+            document.getElementById('regenerateBtn').style.display = 'flex';
+            document.getElementById('exportBtn').style.display = 'flex';
             
             showState('result');
         }
@@ -1140,7 +1237,7 @@
             const container = document.getElementById('historyContainer');
             
             if (postHistory.length === 0) {
-                container.innerHTML = '<p style="color: var(--text-secondary); text-align: center;">No posts generated yet</p>';
+                container.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-muted);">No posts generated yet</div>';
                 return;
             }
             
@@ -1162,12 +1259,12 @@
                 currentPost = post;
                 displayPost(post);
                 
-                // Update form with post parameters
+                // Update form
                 document.getElementById('topicSelect').value = post.params.tag;
                 document.getElementById('lengthSelect').value = post.params.length;
                 document.getElementById('languageSelect').value = post.params.language;
                 
-                // Update tone selection
+                // Update tone
                 document.querySelectorAll('.tone-option').forEach(opt => {
                     opt.classList.toggle('selected', opt.dataset.tone === post.params.tone);
                 });
@@ -1226,11 +1323,9 @@
                 if (result.success) {
                     showNotification(`Generated ${result.posts.length} posts!`, 'success');
                     
-                    // Add to history
                     postHistory.unshift(...result.posts);
                     if (postHistory.length > 20) postHistory = postHistory.slice(0, 20);
                     
-                    // Show first post
                     if (result.posts.length > 0) {
                         currentPost = result.posts[0];
                         displayPost(result.posts[0]);
@@ -1247,12 +1342,6 @@
             }
         }
 
-        // Theme toggle
-        function toggleTheme() {
-            // For future implementation
-            showNotification('Theme toggle coming soon!', 'warning');
-        }
-
         // Show notification
         function showNotification(message, type) {
             // Remove existing notifications
@@ -1261,8 +1350,16 @@
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
             
-            const icon = type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️';
-            notification.innerHTML = `<span>${icon}</span><span>${message}</span>`;
+            const icons = {
+                success: '✅',
+                error: '❌',
+                warning: '⚠️'
+            };
+            
+            notification.innerHTML = `
+                <div class="notification-icon">${icons[type] || '📝'}</div>
+                <div class="notification-text">${message}</div>
+            `;
             
             document.body.appendChild(notification);
             
@@ -1279,6 +1376,19 @@
             if (e.target.classList.contains('modal')) {
                 e.target.classList.remove('show');
             }
+        });
+
+        // Global error handler for unhandled promise rejections
+        window.addEventListener('unhandledrejection', function(event) {
+            console.error('Unhandled promise rejection:', event.reason);
+            showNotification('An unexpected error occurred. Please try again.', 'error');
+            event.preventDefault();
+        });
+
+        // Global error handler for JavaScript errors
+        window.addEventListener('error', function(event) {
+            console.error('JavaScript error:', event.error);
+            showNotification('An unexpected error occurred. Please refresh the page.', 'error');
         });
     </script>
 </body>
