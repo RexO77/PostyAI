@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#2563eb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="32" cy="32" r="30" fill="url(#gradient)" />
+  
+  <!-- Letter P -->
+  <path d="M18 16 L18 48 L22 48 L22 34 L30 34 Q38 34 38 26 Q38 18 30 18 L18 18 Z M22 20 L30 20 Q34 20 34 26 Q34 30 30 30 L22 30 Z" fill="white" />
+  
+  <!-- Sparkle effect -->
+  <circle cx="45" cy="20" r="2" fill="white" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="48" cy="45" r="1.5" fill="white" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.5s" repeatCount="indefinite" />
+  </circle>
+  <circle cx="15" cy="45" r="1" fill="white" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.8s" repeatCount="indefinite" />
+  </circle>
+</svg> 
