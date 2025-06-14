@@ -17,7 +17,18 @@ def get_length_str(length):
 def generate_post(length, language, tag, tone=None):
     prompt = get_prompt(length, language, tag, tone)
     response = llm.invoke(prompt)
-    return response.content
+    content = response.content
+    
+    # Clean up the response by removing thinking process
+    if "<think>" in content and "</think>" in content:
+        # Extract content after </think>
+        content = content.split("</think>")[-1].strip()
+    
+    # Remove any remaining thinking patterns
+    if content.startswith('"') and content.endswith('"'):
+        content = content[1:-1]
+    
+    return content.strip()
 
 def get_prompt(length, language, tag, tone=None):
     length_str = get_length_str(length)
