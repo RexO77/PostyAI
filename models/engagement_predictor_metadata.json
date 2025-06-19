@@ -1,0 +1,21 @@
+{
+  "timestamp": "2025-06-18T22:30:01.498275",
+  "best_model_name": "random_forest",
+  "data_analysis": {
+    "total_posts": 73,
+    "engagement_stats": {
+      "mean": 1122.0,
+      "median": 987.0,
+      "std": 690.96,
+      "min": 90,
+      "max": 3456
+    }
+  },
+  "model_performance": {
+    "random_forest": {
+      "rmse": 450.23,
+      "mae": 320.15,
+      "r2": 0.65
+    }
+  }
+}
