@@ -6,776 +6,7 @@
     <title>PostyAI - AI Content Generator</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --bg-primary: #0f0f0f;
-            --bg-secondary: #1a1a1a;
-            --bg-tertiary: #262626;
-            --bg-hover: #2d2d2d;
-            --border-primary: #404040;
-            --border-hover: #525252;
-            --text-primary: #ffffff;
-            --text-secondary: #a3a3a3;
-            --text-muted: #737373;
-            --accent-primary: #10b981;
-            --accent-hover: #059669;
-            --accent-light: rgba(16, 185, 129, 0.1);
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            line-height: 1.5;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--bg-secondary);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--bg-tertiary);
-            border-radius: 3px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--bg-hover);
-        }
-
-        /* Header */
-        .header {
-            border-bottom: 1px solid var(--border-primary);
-            background-color: var(--bg-primary);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(8px);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 64px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--accent-primary);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 16px;
-            transition: transform 0.2s ease;
-        }
-
-        .logo-icon:hover {
-            transform: scale(1.05);
-        }
-
-        .stats {
-            display: flex;
-            gap: 24px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .stat-value {
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-
-        /* Main Layout */
-        .main-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 24px;
-            display: grid;
-            grid-template-columns: 380px 1fr;
-            gap: 32px;
-            min-height: calc(100vh - 64px);
-        }
-
-        /* Form Section */
-        .form-section {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 12px;
-            padding: 24px;
-            height: fit-content;
-            position: sticky;
-            top: 88px;
-        }
-
-        .section-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: var(--text-primary);
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .form-select {
-            width: 100%;
-            background-color: var(--bg-tertiary);
-            border: 1px solid var(--border-primary);
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 14px;
-            color: var(--text-primary);
-            transition: all 0.2s ease;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23a3a3a3' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 12px center;
-            background-repeat: no-repeat;
-            background-size: 16px;
-            padding-right: 40px;
-        }
-
-        .form-select:hover {
-            border-color: var(--border-hover);
-            background-color: var(--bg-hover);
-        }
-
-        .form-select:focus {
-            outline: none;
-            border-color: var(--accent-primary);
-            box-shadow: 0 0 0 3px var(--accent-light);
-        }
-
-        .form-select option {
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-        }
-
-        /* Tone Selection */
-        .tone-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-        }
-
-        .tone-option {
-            background-color: var(--bg-tertiary);
-            border: 1px solid var(--border-primary);
-            border-radius: 8px;
-            padding: 12px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tone-option:hover {
-            border-color: var(--border-hover);
-            background-color: var(--bg-hover);
-            transform: translateY(-1px);
-        }
-
-        .tone-option.selected {
-            border-color: var(--accent-primary);
-            background-color: var(--accent-light);
-            color: var(--accent-primary);
-        }
-
-        .tone-option.selected::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-            transform: translateX(-100%);
-            animation: shimmer 0.6s ease-out;
-        }
-
-        @keyframes shimmer {
-            100% {
-                transform: translateX(100%);
-            }
-        }
-
-        /* Generate Button */
-        .generate-btn {
-            width: 100%;
-            background-color: var(--accent-primary);
-            border: none;
-            border-radius: 8px;
-            padding: 14px 24px;
-            font-size: 16px;
-            font-weight: 600;
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 24px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .generate-btn:hover:not(:disabled) {
-            background-color: var(--accent-hover);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .generate-btn:active {
-            transform: translateY(0);
-        }
-
-        .generate-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .generate-btn .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid transparent;
-            border-top: 2px solid currentColor;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Content Section */
-        .content-section {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .content-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .content-actions {
-            display: flex;
-            gap: 8px;
-        }
-
-        .action-btn {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 8px;
-            padding: 8px 16px;
-            font-size: 14px;
-            font-weight: 500;
-            color: var(--text-secondary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .action-btn:hover {
-            border-color: var(--border-hover);
-            background-color: var(--bg-tertiary);
-            color: var(--text-primary);
-            transform: translateY(-1px);
-        }
-
-        .action-btn.primary {
-            background-color: var(--accent-primary);
-            border-color: var(--accent-primary);
-            color: white;
-        }
-
-        .action-btn.primary:hover {
-            background-color: var(--accent-hover);
-        }
-
-        /* Content Display */
-        .content-display {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 12px;
-            min-height: 400px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .content-states {
-            height: 100%;
-            position: relative;
-        }
-
-        .content-state {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .content-state.hidden {
-            opacity: 0;
-            transform: translateY(20px);
-            pointer-events: none;
-        }
-
-        /* Welcome State */
-        .welcome-state {
-            flex-direction: column;
-            text-align: center;
-            padding: 60px 40px;
-        }
-
-        .welcome-icon {
-            width: 64px;
-            height: 64px;
-            background-color: var(--bg-tertiary);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            margin: 0 auto 24px;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .welcome-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--text-primary);
-        }
-
-        .welcome-subtitle {
-            font-size: 16px;
-            color: var(--text-secondary);
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        /* Loading State */
-        .loading-state {
-            flex-direction: column;
-            text-align: center;
-            padding: 60px 40px;
-        }
-
-        .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--bg-tertiary);
-            border-top: 3px solid var(--accent-primary);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 24px;
-        }
-
-        .loading-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-        }
-
-        .loading-subtitle {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* Result State */
-        .result-state {
-            padding: 0;
-            display: block;
-        }
-
-        .post-content {
-            padding: 32px;
-            font-size: 16px;
-            line-height: 1.7;
-            color: var(--text-primary);
-            white-space: pre-wrap;
-            border-bottom: 1px solid var(--border-primary);
-            animation: fadeInContent 0.5s ease-out;
-        }
-
-        @keyframes fadeInContent {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Analytics */
-        .analytics {
-            padding: 24px 32px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 24px;
-            background-color: var(--bg-tertiary);
-        }
-
-        .analytic-item {
-            text-align: center;
-        }
-
-        .analytic-value {
-            font-size: 24px;
-            font-weight: 700;
-            color: var(--accent-primary);
-            margin-bottom: 4px;
-        }
-
-        .analytic-label {
-            font-size: 12px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* History Section */
-        .history-section {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .history-header {
-            padding: 20px 24px;
-            border-bottom: 1px solid var(--border-primary);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .history-header h3 {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .history-list {
-            max-height: 300px;
-            overflow-y: auto;
-        }
-
-        .history-item {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border-primary);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .history-item:last-child {
-            border-bottom: none;
-        }
-
-        .history-item:hover {
-            background-color: var(--bg-tertiary);
-        }
-
-        .history-meta {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .history-tag {
-            background-color: var(--accent-light);
-            color: var(--accent-primary);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        .history-time {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .history-preview {
-            font-size: 14px;
-            color: var(--text-secondary);
-            line-height: 1.4;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        /* Notifications */
-        .notification {
-            position: fixed;
-            top: 80px;
-            right: 24px;
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 8px;
-            padding: 16px 20px;
-            box-shadow: var(--shadow-lg);
-            z-index: 100;
-            transform: translateX(400px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 300px;
-            backdrop-filter: blur(8px);
-        }
-
-        .notification.show {
-            transform: translateX(0);
-        }
-
-        .notification.success {
-            border-left: 4px solid var(--accent-primary);
-        }
-
-        .notification.error {
-            border-left: 4px solid var(--danger);
-        }
-
-        .notification.warning {
-            border-left: 4px solid var(--warning);
-        }
-
-        .notification-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-        }
-
-        .notification-text {
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-
-        /* Floating Action Button */
-        .fab {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            width: 56px;
-            height: 56px;
-            background-color: var(--accent-primary);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: white;
-            box-shadow: var(--shadow-lg);
-            transition: all 0.2s ease;
-            z-index: 50;
-        }
-
-        .fab:hover {
-            background-color: var(--accent-hover);
-            transform: scale(1.1);
-        }
-
-        /* Modal */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.2s ease;
-        }
-
-        .modal.show {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background-color: var(--bg-secondary);
-            border: 1px solid var(--border-primary);
-            border-radius: 12px;
-            padding: 32px;
-            max-width: 500px;
-            width: 90%;
-            transform: scale(0.95);
-            transition: transform 0.2s ease;
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
-        }
-
-        .modal-header {
-            margin-bottom: 24px;
-        }
-
-        .modal-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 8px;
-        }
-
-        .modal-subtitle {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-            margin-top: 24px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .main-container {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .form-section {
-                position: static;
-            }
-
-            .stats {
-                display: none;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .main-container {
-                padding: 16px;
-            }
-
-            .header-content {
-                padding: 0 16px;
-            }
-
-            .form-section,
-            .content-section {
-                padding: 20px;
-            }
-
-            .tone-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .analytics {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 16px;
-            }
-        }
-
-        /* Utility Classes */
-        .hidden {
-            display: none !important;
-        }
-
-        /* Focus Styles */
-        button:focus-visible,
-        select:focus-visible {
-            outline: 2px solid var(--accent-primary);
-            outline-offset: 2px;
-        }
-
-        /* Smooth transitions for better UX */
-        * {
-            transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
-        }
-
-        /* Prevent text selection on UI elements */
-        .header, .form-section, .action-btn, .tone-option, .fab {
-            user-select: none;
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-        }
-    </style>
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
     <!-- Header -->
@@ -787,15 +18,15 @@
             </div>
             <div class="stats">
                 <div class="stat-item">
-                    <span class="stat-value" id="totalPosts">0</span>
+                    <span class="stat-value">0</span>
                     <span>Posts</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-value" id="totalTopics">18</span>
+                    <span class="stat-value">0</span>
                     <span>Topics</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-value" id="avgTime">2.3s</span>
+                    <span class="stat-value">0s</span>
                     <span>Avg Time</span>
                 </div>
             </div>
@@ -811,14 +42,15 @@
             <form id="contentForm">
                 <div class="form-group">
                     <label class="form-label">Topic</label>
-                    <select id="topicSelect" class="form-select" required>
+                    <select id="topic" name="topic" class="form-select" required>
                         <option value="">Choose a topic...</option>
+                        <!-- Topics will be loaded dynamically -->
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label class="form-label">Length</label>
-                    <select id="lengthSelect" class="form-select" required>
+                    <select id="length" name="length" class="form-select" required>
                         <option value="Short">Short (1-5 lines)</option>
                         <option value="Medium" selected>Medium (6-10 lines)</option>
                         <option value="Long">Long (14-18 lines)</option>
@@ -827,7 +59,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Language</label>
-                    <select id="languageSelect" class="form-select" required>
+                    <select id="language" name="language" class="form-select" required>
                         <option value="English" selected>English</option>
                         <option value="Hinglish">Hinglish</option>
                     </select>
@@ -843,9 +75,9 @@
                     </div>
                 </div>
 
-                <button type="submit" class="generate-btn" id="generateBtn">
-                    <span id="btnText">Generate Post</span>
-                    <div class="spinner hidden" id="btnSpinner"></div>
+                <button type="submit" class="generate-btn">
+                    <i data-lucide="zap"></i>
+                    Generate Post
                 </button>
             </form>
         </div>
@@ -855,16 +87,16 @@
             <div class="content-header">
                 <h2 class="section-title">Generated Content</h2>
                 <div class="content-actions">
-                    <button class="action-btn" id="copyBtn" style="display: none;" onclick="copyToClipboard()">
-                        <span>📋</span>
+                    <button class="action-btn" data-action="copy" style="display: none;">
+                        <i data-lucide="copy"></i>
                         Copy
                     </button>
-                    <button class="action-btn" id="regenerateBtn" style="display: none;" onclick="regeneratePost()">
-                        <span>🔄</span>
+                    <button class="action-btn" data-action="regenerate" style="display: none;">
+                        <i data-lucide="refresh-cw"></i>
                         Regenerate
                     </button>
-                    <button class="action-btn" id="exportBtn" style="display: none;" onclick="exportPost()">
-                        <span>📤</span>
+                    <button class="action-btn primary" data-action="export" style="display: none;">
+                        <i data-lucide="download"></i>
                         Export
                     </button>
                 </div>
@@ -873,37 +105,37 @@
             <div class="content-display">
                 <div class="content-states">
                     <!-- Welcome State -->
-                    <div id="welcomeState" class="content-state welcome-state">
+                    <div class="content-state welcome-state">
                         <div class="welcome-icon">✨</div>
                         <h3 class="welcome-title">Ready to create amazing content?</h3>
                         <p class="welcome-subtitle">Select your preferences and generate professional social media posts with AI</p>
                     </div>
 
                     <!-- Loading State -->
-                    <div id="loadingState" class="content-state loading-state hidden">
+                    <div class="content-state loading-state hidden">
                         <div class="loading-spinner"></div>
                         <h3 class="loading-title">Generating your post...</h3>
                         <p class="loading-subtitle">Our AI is crafting the perfect content for you</p>
                     </div>
 
                     <!-- Result State -->
-                    <div id="resultState" class="content-state result-state hidden">
-                        <div class="post-content" id="postContent"></div>
+                    <div class="content-state result-state hidden">
+                        <div class="post-content"></div>
                         <div class="analytics">
                             <div class="analytic-item">
-                                <div class="analytic-value" id="wordCount">0</div>
+                                <div class="analytic-value">58</div>
                                 <div class="analytic-label">Words</div>
                             </div>
                             <div class="analytic-item">
-                                <div class="analytic-value" id="readingTime">0</div>
+                                <div class="analytic-value">0.3</div>
                                 <div class="analytic-label">Min Read</div>
                             </div>
                             <div class="analytic-item">
-                                <div class="analytic-value" id="engagementScore">0/10</div>
+                                <div class="analytic-value">5/10</div>
                                 <div class="analytic-label">Engagement</div>
                             </div>
                             <div class="analytic-item">
-                                <div class="analytic-value" id="genTime">0s</div>
+                                <div class="analytic-value">2.33s</div>
                                 <div class="analytic-label">Generated</div>
                             </div>
                         </div>
@@ -917,7 +149,7 @@
                     <h3>Recent Posts</h3>
                     <button class="action-btn" onclick="clearHistory()">Clear All</button>
                 </div>
-                <div class="history-list" id="historyContainer">
+                <div class="history-list">
                     <div style="padding: 40px; text-align: center; color: var(--text-muted);">
                         No posts generated yet
                     </div>
@@ -956,439 +188,36 @@
         </div>
     </div>
 
-    <script>
-        // Global State
-        let selectedTone = 'Professional';
-        let currentPost = null;
-        let postHistory = [];
-        let isGenerating = false;
-
-        // Initialize App
-        document.addEventListener('DOMContentLoaded', async function() {
-            await initializeApp();
-        });
-
-        // Handle page visibility changes for better performance
-        document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                // Page is hidden, pause any ongoing operations
-                if (isGenerating) {
-                    console.log('Page hidden during generation');
-                }
-            } else {
-                // Page is visible again
-                console.log('Page visible again');
-            }
-        });
-
-        async function initializeApp() {
-            console.log('🚀 Initializing PostyAI...');
+    <!-- ML Model Info Modal -->
+    <div id="modelInfoModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h3 class="modal-title">🤖 ML Model Information</h3>
+                <p class="modal-subtitle">Performance metrics and model details</p>
+            </div>
             
-            try {
-                await Promise.all([
-                    loadTopics(),
-                    loadHistory()
-                ]);
-                
-                setupEventListeners();
-                console.log('✅ PostyAI ready!');
-            } catch (error) {
-                console.error('❌ Initialization failed:', error);
-                showNotification('Failed to initialize app', 'error');
-            }
-        }
-
-        // Load topics from API
-        async function loadTopics() {
-            try {
-                const response = await fetch('/api/tags');
-                const data = await response.json();
-                
-                const select = document.getElementById('topicSelect');
-                select.innerHTML = '<option value="">Choose a topic...</option>';
-                
-                data.tags.forEach(topic => {
-                    const option = document.createElement('option');
-                    option.value = topic;
-                    option.textContent = topic;
-                    select.appendChild(option);
-                });
-                
-                document.getElementById('totalTopics').textContent = data.tags.length;
-            } catch (error) {
-                console.error('Failed to load topics:', error);
-                showNotification('Failed to load topics', 'error');
-            }
-        }
-
-        // Load post history
-        async function loadHistory() {
-            try {
-                const response = await fetch('/api/history');
-                const data = await response.json();
-                postHistory = data.history || [];
-                
-                updateStats();
-                renderHistory();
-            } catch (error) {
-                console.warn('Failed to load history');
-            }
-        }
-
-        // Setup event listeners
-        function setupEventListeners() {
-            // Tone selection
-            document.querySelectorAll('.tone-option').forEach(option => {
-                option.addEventListener('click', function() {
-                    document.querySelectorAll('.tone-option').forEach(opt => 
-                        opt.classList.remove('selected'));
-                    
-                    this.classList.add('selected');
-                    selectedTone = this.dataset.tone;
-                });
-            });
-
-            // Form submission
-            document.getElementById('contentForm').addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                if (isGenerating) return;
-                
-                const topic = document.getElementById('topicSelect').value;
-                const length = document.getElementById('lengthSelect').value;
-                const language = document.getElementById('languageSelect').value;
-                
-                if (!topic) {
-                    showNotification('Please select a topic first!', 'error');
-                    return;
-                }
-                
-                await generatePost(topic, length, language, selectedTone);
-            });
-
-            // Keyboard shortcuts
-            document.addEventListener('keydown', function(e) {
-                if (e.ctrlKey || e.metaKey) {
-                    switch (e.key) {
-                        case 'Enter':
-                            e.preventDefault();
-                            if (!isGenerating) {
-                                document.getElementById('contentForm').dispatchEvent(new Event('submit'));
-                            }
-                            break;
-                        case 'c':
-                            if (currentPost) {
-                                e.preventDefault();
-                                copyToClipboard();
-                            }
-                            break;
-                        case 'r':
-                            if (currentPost) {
-                                e.preventDefault();
-                                regeneratePost();
-                            }
-                            break;
-                    }
-                }
-            });
-        }
-
-        // Generate post
-        async function generatePost(topic, length, language, tone) {
-            isGenerating = true;
-            showState('loading');
-            
-            const generateBtn = document.getElementById('generateBtn');
-            const btnText = document.getElementById('btnText');
-            const btnSpinner = document.getElementById('btnSpinner');
-            
-            generateBtn.disabled = true;
-            btnText.classList.add('hidden');
-            btnSpinner.classList.remove('hidden');
-            
-            try {
-                const response = await fetch('/api/generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tag: topic, length, language, tone })
-                });
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    currentPost = result.post;
-                    displayPost(result.post);
-                    showNotification('Post generated successfully!', 'success');
-                    
-                    // Update history
-                    postHistory.unshift(result.post);
-                    if (postHistory.length > 10) postHistory = postHistory.slice(0, 10);
-                    
-                    updateStats();
-                    renderHistory();
-                } else {
-                    throw new Error(result.error || 'Generation failed');
-                }
-                
-            } catch (error) {
-                console.error('Generation failed:', error);
-                const errorMessage = error.message.includes('fetch') 
-                    ? 'Network error. Please check your connection.' 
-                    : `Generation failed: ${error.message}`;
-                showNotification(errorMessage, 'error');
-                showState('welcome');
-            } finally {
-                isGenerating = false;
-                generateBtn.disabled = false;
-                btnText.classList.remove('hidden');
-                btnSpinner.classList.add('hidden');
-            }
-        }
-
-        // Display post
-        function displayPost(post) {
-            document.getElementById('postContent').textContent = post.content;
-            document.getElementById('wordCount').textContent = post.stats.word_count;
-            document.getElementById('readingTime').textContent = post.stats.reading_time;
-            document.getElementById('engagementScore').textContent = `${post.stats.engagement_score}/10`;
-            document.getElementById('genTime').textContent = `${post.generation_time}s`;
-            
-            // Show action buttons
-            document.getElementById('copyBtn').style.display = 'flex';
-            document.getElementById('regenerateBtn').style.display = 'flex';
-            document.getElementById('exportBtn').style.display = 'flex';
-            
-            showState('result');
-        }
-
-        // Show state
-        function showState(state) {
-            const states = ['welcome', 'loading', 'result'];
-            
-            states.forEach(s => {
-                const element = document.getElementById(`${s}State`);
-                if (element) {
-                    element.classList.add('hidden');
-                }
-            });
-            
-            const targetElement = document.getElementById(`${state}State`);
-            if (targetElement) {
-                targetElement.classList.remove('hidden');
-            }
-        }
-
-        // Copy to clipboard
-        async function copyToClipboard() {
-            if (!currentPost) return;
-            
-            try {
-                await navigator.clipboard.writeText(currentPost.content);
-                showNotification('Copied to clipboard!', 'success');
-            } catch (error) {
-                showNotification('Failed to copy', 'error');
-            }
-        }
-
-        // Regenerate post
-        async function regeneratePost() {
-            if (!currentPost) return;
-            
-            const params = currentPost.params;
-            await generatePost(params.tag, params.length, params.language, params.tone);
-        }
-
-        // Export post
-        async function exportPost() {
-            if (!currentPost) return;
-            
-            try {
-                const response = await fetch(`/api/export/${currentPost.id}`);
-                const blob = await response.blob();
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `post-${currentPost.id}.txt`;
-                a.click();
-                window.URL.revokeObjectURL(url);
-                
-                showNotification('Post exported!', 'success');
-            } catch (error) {
-                showNotification('Export failed', 'error');
-            }
-        }
-
-        // Update statistics
-        function updateStats() {
-            document.getElementById('totalPosts').textContent = postHistory.length;
-            
-            if (postHistory.length > 0) {
-                const avgTime = postHistory.reduce((sum, post) => sum + post.generation_time, 0) / postHistory.length;
-                document.getElementById('avgTime').textContent = `${avgTime.toFixed(1)}s`;
-            }
-        }
-
-        // Render history
-        function renderHistory() {
-            const container = document.getElementById('historyContainer');
-            
-            if (postHistory.length === 0) {
-                container.innerHTML = '<div style="padding: 40px; text-align: center; color: var(--text-muted);">No posts generated yet</div>';
-                return;
-            }
-            
-            container.innerHTML = postHistory.slice(0, 5).map(post => `
-                <div class="history-item" onclick="loadHistoryPost('${post.id}')">
-                    <div class="history-meta">
-                        <span class="history-tag">${post.params.tag}</span>
-                        <span class="history-time">${new Date(post.timestamp).toLocaleTimeString()}</span>
-                    </div>
-                    <div class="history-preview">${post.content.slice(0, 100)}...</div>
+            <div class="model-info-content" id="modelInfoContent">
+                <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Loading model information...
                 </div>
-            `).join('');
-        }
+            </div>
+            
+            <div class="modal-actions">
+                <button class="action-btn" onclick="closeModelInfoModal()">Close</button>
+                <button class="action-btn primary" onclick="refreshModelInfo()">Refresh</button>
+            </div>
+        </div>
+    </div>
 
-        // Load history post
-        function loadHistoryPost(postId) {
-            const post = postHistory.find(p => p.id === postId);
-            if (post) {
-                currentPost = post;
-                displayPost(post);
-                
-                // Update form
-                document.getElementById('topicSelect').value = post.params.tag;
-                document.getElementById('lengthSelect').value = post.params.length;
-                document.getElementById('languageSelect').value = post.params.language;
-                
-                // Update tone
-                document.querySelectorAll('.tone-option').forEach(opt => {
-                    opt.classList.toggle('selected', opt.dataset.tone === post.params.tone);
-                });
-                selectedTone = post.params.tone;
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
+    <script>
+        // Initialize Lucide icons after DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
             }
-        }
-
-        // Clear history
-        function clearHistory() {
-            if (confirm('Are you sure you want to clear all history?')) {
-                postHistory = [];
-                renderHistory();
-                updateStats();
-                showNotification('History cleared', 'success');
-            }
-        }
-
-        // Batch generation
-        function showBatchModal() {
-            document.getElementById('batchModal').classList.add('show');
-        }
-
-        function closeBatchModal() {
-            document.getElementById('batchModal').classList.remove('show');
-        }
-
-        async function startBatchGeneration() {
-            const topic = document.getElementById('topicSelect').value;
-            const length = document.getElementById('lengthSelect').value;
-            const language = document.getElementById('languageSelect').value;
-            const count = parseInt(document.getElementById('batchCount').value);
-            
-            if (!topic) {
-                showNotification('Please select a topic first!', 'error');
-                return;
-            }
-            
-            closeBatchModal();
-            showNotification(`Generating ${count} posts...`, 'warning');
-            
-            try {
-                const response = await fetch('/api/batch-generate', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        tag: topic,
-                        length,
-                        language,
-                        tone: selectedTone,
-                        count
-                    })
-                });
-                
-                const result = await response.json();
-                
-                if (result.success) {
-                    showNotification(`Generated ${result.posts.length} posts!`, 'success');
-                    
-                    postHistory.unshift(...result.posts);
-                    if (postHistory.length > 20) postHistory = postHistory.slice(0, 20);
-                    
-                    if (result.posts.length > 0) {
-                        currentPost = result.posts[0];
-                        displayPost(result.posts[0]);
-                    }
-                    
-                    updateStats();
-                    renderHistory();
-                } else {
-                    throw new Error(result.error);
-                }
-                
-            } catch (error) {
-                showNotification(`Batch generation failed: ${error.message}`, 'error');
-            }
-        }
-
-        // Show notification
-        function showNotification(message, type) {
-            // Remove existing notifications
-            document.querySelectorAll('.notification').forEach(n => n.remove());
-            
-            const notification = document.createElement('div');
-            notification.className = `notification ${type}`;
-            
-            const icons = {
-                success: '✅',
-                error: '❌',
-                warning: '⚠️'
-            };
-            
-            notification.innerHTML = `
-                <div class="notification-icon">${icons[type] || '📝'}</div>
-                <div class="notification-text">${message}</div>
-            `;
-            
-            document.body.appendChild(notification);
-            
-            requestAnimationFrame(() => notification.classList.add('show'));
-            
-            setTimeout(() => {
-                notification.classList.remove('show');
-                setTimeout(() => notification.remove(), 300);
-            }, 4000);
-        }
-
-        // Close modal on outside click
-        document.addEventListener('click', function(e) {
-            if (e.target.classList.contains('modal')) {
-                e.target.classList.remove('show');
-            }
-        });
-
-        // Global error handler for unhandled promise rejections
-        window.addEventListener('unhandledrejection', function(event) {
-            console.error('Unhandled promise rejection:', event.reason);
-            showNotification('An unexpected error occurred. Please try again.', 'error');
-            event.preventDefault();
-        });
-
-        // Global error handler for JavaScript errors
-        window.addEventListener('error', function(event) {
-            console.error('JavaScript error:', event.error);
-            showNotification('An unexpected error occurred. Please refresh the page.', 'error');
         });
     </script>
 </body>
